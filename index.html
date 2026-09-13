@@ -1121,11 +1121,13 @@
                     </div>
 
                     <div class="card-glass text-center">
-                        <div style="font-weight:800;font-size:15px;color:var(--accent);margin-bottom:6px;">🌬️ Guided Deep Breathwork</div>
-                        <p style="font-size:13px;color:var(--text2);margin-bottom:14px;">Instant calm & focus with synchronized full-screen cues.</p>
-                        <div style="display:flex;gap:10px;justify-content:center;">
-                            <button class="btn btn-sm" onclick="startStandaloneBreathing(30)">▶ 30s Session</button>
-                            <button class="btn btn-sm btn-gold" onclick="startStandaloneBreathing(60)">▶ 60s Session</button>
+                        <div style="font-weight:800;font-size:15px;color:var(--accent);margin-bottom:6px;">🎬 Guided Video Routines & Breathwork</div>
+                        <p style="font-size:13px;color:var(--text2);margin-bottom:14px;">Instant full-screen video demonstrations with synced timers.</p>
+                        <div style="display:grid;grid-template-columns:repeat(2, 1fr);gap:8px;">
+                            <button class="btn btn-sm btn-secondary" onclick="startStandaloneNeckRolls(30)">🧘 Neck Rolls</button>
+                            <button class="btn btn-sm btn-secondary" onclick="startStandaloneShoulderRolls(30)">💪 Shoulder Rolls</button>
+                            <button class="btn btn-sm btn-secondary" onclick="startStandaloneForwardFold(30)">🤸 Forward Fold</button>
+                            <button class="btn btn-sm btn-gold" onclick="startStandaloneBreathing(30)">🌬️ Breathe 30s</button>
                         </div>
                     </div>
                 </div>
@@ -1166,11 +1168,13 @@
                     </div>
 
                     <div class="card-glass mt-16 text-center">
-                        <div style="font-weight:800;font-size:15px;color:var(--accent);margin-bottom:4px;">🌬️ Need a Breathwork Pause?</div>
-                        <p style="font-size:13px;color:var(--text2);margin-bottom:12px;">Full-screen breathing exercise with auto timer HUD.</p>
-                        <div style="display:flex;gap:10px;justify-content:center;">
-                            <button class="btn btn-sm" onclick="startStandaloneBreathing(30)">▶ 30s Breathe</button>
-                            <button class="btn btn-sm btn-gold" onclick="startStandaloneBreathing(60)">▶ 60s Breathe</button>
+                        <div style="font-weight:800;font-size:15px;color:var(--accent);margin-bottom:4px;">🎬 Full-Screen Video Exercises</div>
+                        <p style="font-size:13px;color:var(--text2);margin-bottom:12px;">Launch real-time video demonstrations for recovery & posture.</p>
+                        <div style="display:grid;grid-template-columns:repeat(2, 1fr);gap:8px;">
+                            <button class="btn btn-sm btn-secondary" onclick="startStandaloneNeckRolls(30)">🧘 Neck Rolls</button>
+                            <button class="btn btn-sm btn-secondary" onclick="startStandaloneShoulderRolls(30)">💪 Shoulder Rolls</button>
+                            <button class="btn btn-sm btn-secondary" onclick="startStandaloneForwardFold(30)">🤸 Forward Fold</button>
+                            <button class="btn btn-sm btn-gold" onclick="startStandaloneBreathing(30)">🌬️ Breathe 30s</button>
                         </div>
                     </div>
                 </div>
@@ -1605,22 +1609,22 @@
 
 <div id="fullscreenBreathingOverlay" class="hidden" style="position:fixed;top:0;left:0;right:0;bottom:0;width:100vw;height:100vh;background:#000;z-index:999999;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;">
     <video id="fsBreathingVideo" playsinline loop style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;z-index:1;">
-        <source src="breath in and out.mp4" type="video/mp4">
+        <source id="fsVideoSource" src="breath in and out.mp4" type="video/mp4">
     </video>
 
     <div style="position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,0.65) 0%, transparent 20%, transparent 75%, rgba(0,0,0,0.85) 100%);z-index:2;pointer-events:none;"></div>
 
     <div style="position:absolute;top:24px;left:28px;right:28px;display:flex;justify-content:space-between;align-items:center;z-index:3;">
         <div style="background:rgba(26,26,46,0.85);backdrop-filter:blur(10px);padding:8px 20px;border-radius:30px;border:1px solid rgba(255,255,255,0.15);font-size:14px;font-weight:700;color:var(--accent);display:flex;align-items:center;gap:8px;">
-            <span>🌬️ Deep Breathing Session</span>
+            <span id="fsSessionTitle">🌬️ Guided Exercise Session</span>
         </div>
         <button onclick="closeFullscreenBreathing(true)" style="background:rgba(239,68,68,0.85);backdrop-filter:blur(10px);border:none;color:#fff;width:40px;height:40px;border-radius:50%;cursor:pointer;font-size:18px;font-weight:bold;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,0.4);">✕</button>
     </div>
 
     <div style="position:relative;z-index:3;text-align:center;padding:20px;max-width:90vw;margin-top:auto;margin-bottom:80px;">
-        <div id="fsTimerLabel" style="font-size:16px;font-weight:800;letter-spacing:3px;color:var(--accent);text-transform:uppercase;text-shadow:0 2px 10px rgba(0,0,0,0.9);margin-bottom:6px;">BREATHE IN & OUT</div>
+        <div id="fsTimerLabel" style="font-size:16px;font-weight:800;letter-spacing:3px;color:var(--accent);text-transform:uppercase;text-shadow:0 2px 10px rgba(0,0,0,0.9);margin-bottom:6px;">READY</div>
         <div id="fsTimerDisplay" style="font-size:80px;font-weight:900;letter-spacing:2px;font-variant-numeric:tabular-nums;color:#ffffff;text-shadow:0 4px 30px rgba(0,0,0,0.95);line-height:1;">00:30</div>
-        <div id="fsExerciseDetail" style="font-size:16px;color:#e2e8f0;margin-top:12px;text-shadow:0 2px 10px rgba(0,0,0,0.9);font-weight:600;">Inhale deeply 4s, hold 4s, exhale 6s</div>
+        <div id="fsExerciseDetail" style="font-size:16px;color:#e2e8f0;margin-top:12px;text-shadow:0 2px 10px rgba(0,0,0,0.9);font-weight:600;">Get ready...</div>
         
         <div style="width:280px;height:7px;background:rgba(255,255,255,0.25);border-radius:4px;margin:16px auto 0;overflow:hidden;backdrop-filter:blur(4px);">
             <div id="fsProgressBar" style="width:100%;height:100%;background:linear-gradient(90deg, var(--accent), var(--gold));border-radius:4px;transition:0.3s ease;"></div>
@@ -2058,27 +2062,111 @@ function renderWorkoutButtons(state) {
 let currentExerciseDuration = 30;
 let isStandaloneBreathing = false;
 let standaloneTimer = null;
+let standaloneExerciseName = 'Guided Exercise';
 
-function openFullscreenBreathing(duration, detail = 'Inhale 4s, hold 4s, exhale 6s') {
+function getVideoForExercise(name, detail = '') {
+    const combined = ((name || '') + ' ' + (detail || '')).toLowerCase();
+
+    // Check combined neck & shoulder rolls
+    if (combined.includes('neck') && combined.includes('shoulder')) {
+        return {
+            video: 'Neck rolls.mp4',
+            title: '🧘 Neck & Shoulder Mobility',
+            label: 'NECK & SHOULDER ROLLS',
+            defaultDetail: 'Slow neck circles and shoulder rolls — release upper tension'
+        };
+    }
+
+    // Check standing forward fold / forward fold
+    if (combined.includes('forward fold') || combined.includes('fold')) {
+        return {
+            video: 'Standing forward fold.mp4',
+            title: '🤸 Standing Forward Fold',
+            label: 'FORWARD FOLD',
+            defaultDetail: 'Hang loose, let gravity stretch your spine and hamstrings'
+        };
+    }
+
+    // Check neck rolls
+    if (combined.includes('neck')) {
+        return {
+            video: 'Neck rolls.mp4',
+            title: '🧘 Neck Rolls Guided Session',
+            label: 'NECK ROLLS',
+            defaultDetail: 'Slow circles, side to side — ease neck tension'
+        };
+    }
+
+    // Check shoulder rolls
+    if (combined.includes('shoulder roll') || combined.includes('shoulder')) {
+        return {
+            video: 'Shoulder rolls.mp4',
+            title: '💪 Shoulder Rolls Guided Session',
+            label: 'SHOULDER ROLLS',
+            defaultDetail: 'Roll shoulders back and forth with full mobility'
+        };
+    }
+
+    // Check breathing
+    if (combined.includes('breath') || combined.includes('inhale')) {
+        return {
+            video: 'breath in and out.mp4',
+            title: '🌬️ Deep Breathing Session',
+            label: 'BREATHE IN & OUT',
+            defaultDetail: 'Inhale deeply 4s, hold 4s, exhale slowly 6s'
+        };
+    }
+
+    return null;
+}
+
+function openFullscreenVideo(videoSrc, title, label, duration, detail = '') {
     currentExerciseDuration = duration || 30;
     const overlay = document.getElementById('fullscreenBreathingOverlay');
     const video = document.getElementById('fsBreathingVideo');
     if (!overlay || !video) return;
 
-    document.getElementById('fsExerciseDetail').textContent = detail;
-    document.getElementById('fsPauseBtn').textContent = isPaused ? '▶ Resume' : '⏸ Pause';
-    overlay.classList.remove('hidden');
+    const titleEl = document.getElementById('fsSessionTitle');
+    if (titleEl) titleEl.textContent = title || 'Guided Exercise';
 
-    try {
+    const labelEl = document.getElementById('fsTimerLabel');
+    if (labelEl) labelEl.textContent = label || 'WORK';
+
+    const detailEl = document.getElementById('fsExerciseDetail');
+    if (detailEl) detailEl.textContent = detail || '';
+
+    const pauseBtn = document.getElementById('fsPauseBtn');
+    if (pauseBtn) pauseBtn.textContent = isPaused ? '▶ Resume' : '⏸ Pause';
+
+    if (videoSrc) {
+        const currentSrc = video.getAttribute('data-src') || '';
+        if (currentSrc !== videoSrc) {
+            video.setAttribute('data-src', videoSrc);
+            const sourceEl = document.getElementById('fsVideoSource');
+            if (sourceEl) sourceEl.src = videoSrc;
+            video.src = videoSrc;
+            video.load();
+        }
         video.currentTime = 0;
-        video.play();
-    } catch(e) {}
+        try {
+            const playPromise = video.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(err => console.log('Autoplay warning:', err));
+            }
+        } catch(e) {}
+    }
+
+    overlay.classList.remove('hidden');
 
     try {
         if (overlay.requestFullscreen && !document.fullscreenElement) {
             overlay.requestFullscreen().catch(() => {});
         }
     } catch(e) {}
+}
+
+function openFullscreenBreathing(duration, detail = 'Inhale 4s, hold 4s, exhale 6s') {
+    openFullscreenVideo('breath in and out.mp4', '🌬️ Deep Breathing Session', 'BREATHE IN & OUT', duration, detail);
 }
 
 function closeFullscreenBreathing(userCancelled = false) {
@@ -2097,7 +2185,7 @@ function closeFullscreenBreathing(userCancelled = false) {
         clearInterval(standaloneTimer);
         isStandaloneBreathing = false;
         if (userCancelled) {
-            showToast('Breathing session ended. 🌿');
+            showToast('Session ended. 🌿');
         }
     }
 }
@@ -2116,13 +2204,45 @@ function skipFullscreenExercise() {
     }
 }
 
-function startStandaloneBreathing(seconds = 30) {
+function startStandaloneExercise(type, seconds = 30) {
+    let videoInfo = null;
+    if (type === 'neck') {
+        videoInfo = {
+            video: 'Neck rolls.mp4',
+            title: '🧘 Neck Rolls Session',
+            label: 'NECK ROLLS',
+            detail: 'Slow circles, side to side — ease cervical tension'
+        };
+    } else if (type === 'shoulder') {
+        videoInfo = {
+            video: 'Shoulder rolls.mp4',
+            title: '💪 Shoulder Rolls Session',
+            label: 'SHOULDER ROLLS',
+            detail: 'Roll shoulders back and forth with wide range of motion'
+        };
+    } else if (type === 'fold' || type === 'forward fold') {
+        videoInfo = {
+            video: 'Standing forward fold.mp4',
+            title: '🤸 Standing Forward Fold Session',
+            label: 'FORWARD FOLD',
+            detail: 'Hang loose, let gravity gently stretch your spine & hamstrings'
+        };
+    } else {
+        videoInfo = {
+            video: 'breath in and out.mp4',
+            title: '🌬️ Deep Breathing Session',
+            label: 'BREATHE IN & OUT',
+            detail: 'Inhale deeply 4s, hold 4s, exhale slowly 6s'
+        };
+    }
+
     isStandaloneBreathing = true;
+    standaloneExerciseName = videoInfo.title;
     timeRemaining = seconds;
     currentExerciseDuration = seconds;
     isPaused = false;
 
-    openFullscreenBreathing(seconds, 'Inhale deeply 4s, hold 4s, exhale slowly 6s');
+    openFullscreenVideo(videoInfo.video, videoInfo.title, videoInfo.label, seconds, videoInfo.detail);
     updateTimerDisplay();
     playBeep(587.33, 'triangle', 0.25);
 
@@ -2142,6 +2262,22 @@ function startStandaloneBreathing(seconds = 30) {
     }, 1000);
 }
 
+function startStandaloneBreathing(seconds = 30) {
+    startStandaloneExercise('breathing', seconds);
+}
+
+function startStandaloneNeckRolls(seconds = 30) {
+    startStandaloneExercise('neck', seconds);
+}
+
+function startStandaloneShoulderRolls(seconds = 30) {
+    startStandaloneExercise('shoulder', seconds);
+}
+
+function startStandaloneForwardFold(seconds = 30) {
+    startStandaloneExercise('fold', seconds);
+}
+
 function finishStandaloneBreathing() {
     clearInterval(standaloneTimer);
     isStandaloneBreathing = false;
@@ -2152,7 +2288,8 @@ function finishStandaloneBreathing() {
     addXP(data, 10);
     saveData(data);
     updateUI();
-    showToast('✨ Breathwork complete! +10 XP. Feel the calm & clarity. 🧘');
+    const name = standaloneExerciseName || 'Exercise';
+    showToast(`✨ ${name} complete! +10 XP. Outstanding job! 🌟`);
 }
 
 function startWorkout() {
@@ -2196,9 +2333,9 @@ function startExercise(index) {
     currentExerciseDuration = duration;
     timeRemaining = duration;
 
-    const isBreathing = ex.name.toLowerCase().includes('breath') || (ex.detail && ex.detail.toLowerCase().includes('inhale'));
-    if (isBreathing) {
-        openFullscreenBreathing(duration, ex.detail);
+    const videoInfo = getVideoForExercise(ex.name, ex.detail);
+    if (videoInfo) {
+        openFullscreenVideo(videoInfo.video, videoInfo.title, videoInfo.label, duration, ex.detail || videoInfo.defaultDetail);
     } else {
         closeFullscreenBreathing();
     }
@@ -2225,9 +2362,7 @@ function startExercise(index) {
 
         if (timeRemaining <= 0) {
             clearInterval(workoutTimer);
-            if (isBreathing) {
-                closeFullscreenBreathing();
-            }
+            closeFullscreenBreathing();
             const items = document.querySelectorAll('#exerciseItems .exercise-item');
             if (items[index]) {
                 items[index].style.opacity = '0.6';
